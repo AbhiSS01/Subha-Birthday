@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday, My Love!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Great+Vibes&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+        .font-handwriting {
+            font-family: 'Great Vibes', cursive;
+        }
+        .fade-in {
+            animation: fadeIn 2s ease-in-out;
+        }
+        .fade-in-late {
+            animation: fadeIn 3s ease-in-out;
+        }
+        .slide-in-up {
+            animation: slideInUp 1s ease-out forwards;
+            opacity: 0;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideInUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        .card {
+            transform-style: preserve-3d;
+            transition: transform 0.8s;
+        }
+        .card.is-flipped {
+            transform: rotateY(180deg);
+        }
+        .card-face {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        .card-face-back {
+            transform: rotateY(180deg);
+        }
+        .heart {
+            position: absolute;
+            font-size: 2rem;
+            color: rgba(255, 105, 180, 0.6); /* Hot pink with opacity */
+            animation: float 10s infinite;
+            z-index: 0;
+        }
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0.6; }
+            50% { opacity: 0.9; }
+            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+        }
+        .modal-open {
+            overflow: hidden;
+        }
+        #proposal-modal.hidden {
+            display: none;
+        }
+        #proposal-modal #modal-content.scale-100 {
+            transform: scale(1);
+        }
+         .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f0f;
+            opacity: 0.7;
+            animation: fall 3s linear forwards;
+            border-radius: 50%;
+        }
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+        /* New pulse animation for the main title */
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.03);
+            }
+        }
+        .pulse-animation {
+            animation: pulse 4s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="bg-pink-50 text-gray-800">
+
+    <!-- Background hearts animation container -->
+    <div id="hearts-container" class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0"></div>
+    <div id="confetti-container" class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-50"></div>
+
+
+    <div class="relative z-10">
+        <!-- Hero Section -->
+        <header class="min-h-screen bg-cover bg-center flex flex-col items-center justify-center text-white text-center p-4" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?q=80&w=1964&auto=format&fit=crop');">
+            <h1 class="font-handwriting text-6xl md:text-9xl drop-shadow-2xl fade-in pulse-animation">Happy Birthday</h1>
+            <p id="girlfriend-name" class="text-4xl md:text-7xl mt-4 drop-shadow-xl fade-in-late">Subhasmita</p>
+            <p class="text-lg md:text-2xl mt-8 max-w-2xl fade-in-late drop-shadow-lg">To the one who makes my world brighter every single day. This is for you.</p>
+        </header>
+
+        <!-- Countdown Section -->
+        <section id="countdown-section" class="py-20 bg-white slide-in-up">
+            <div class="container mx-auto text-center px-4">
+                <h2 class="font-handwriting text-5xl md:text-7xl text-pink-500 mb-4">The Celebration Begins In...</h2>
+                <div id="countdown-timer" class="flex justify-center space-x-2 md:space-x-8 text-xl md:text-4xl mt-8">
+                    <div class="bg-pink-100 p-4 rounded-lg shadow-md min-w-[70px] md:min-w-[100px]">
+                        <span id="days" class="font-bold">00</span>
+                        <div class="text-sm">Days</div>
+                    </div>
+                    <div class="bg-pink-100 p-4 rounded-lg shadow-md min-w-[70px] md:min-w-[100px]">
+                        <span id="hours" class="font-bold">00</span>
+                        <div class="text-sm">Hours</div>
+                    </div>
+                    <div class="bg-pink-100 p-4 rounded-lg shadow-md min-w-[70px] md:min-w-[100px]">
+                        <span id="minutes" class="font-bold">00</span>
+                        <div class="text-sm">Minutes</div>
+                    </div>
+                    <div class="bg-pink-100 p-4 rounded-lg shadow-md min-w-[70px] md:min-w-[100px]">
+                        <span id="seconds" class="font-bold">00</span>
+                        <div class="text-sm">Seconds</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reasons I Love You Section -->
+        <section class="py-20 bg-pink-50 slide-in-up" style="animation-delay: 0.2s;">
+            <div class="container mx-auto text-center px-4">
+                <h2 class="font-handwriting text-5xl md:text-7xl text-pink-500 mb-12">A Few Reasons Why I Love You</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Card 1 -->
+                    <div class="reason-card perspective-1000">
+                        <div class="card relative w-full h-48">
+                            <div class="card-face absolute w-full h-full p-6 bg-white rounded-lg shadow-lg flex items-center justify-center text-center">
+                                <p class="text-xl font-semibold">Your incredible kindness.</p>
+                            </div>
+                            <div class="card-face card-face-back absolute w-full h-full p-6 bg-pink-400 text-white rounded-lg shadow-lg flex items-center justify-center text-center">
+                                <p>You have the biggest heart of anyone I know.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Card 2 -->
+                    <div class="reason-card perspective-1000">
+                        <div class="card relative w-full h-48">
+                            <div class="card-face absolute w-full h-full p-6 bg-white rounded-lg shadow-lg flex items-center justify-center text-center">
+                                <p class="text-xl font-semibold">The way you laugh.</p>
+                            </div>
+                            <div class="card-face card-face-back absolute w-full h-full p-6 bg-pink-400 text-white rounded-lg shadow-lg flex items-center justify-center text-center">
+                                <p>It's the most beautiful sound in the world.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Card 3 -->
+                    <div class="reason-card perspective-1000">
+                        <div class="card relative w-full h-48">
+                            <div class="card-face absolute w-full h-full p-6 bg-white rounded-lg shadow-lg flex items-center justify-center text-center">
+                                <p class="text-xl font-semibold">How you always support me.</p>
+                            </div>
+                             <div class="card-face card-face-back absolute w-full h-full p-6 bg-pink-400 text-white rounded-lg shadow-lg flex items-center justify-center text-center">
+                                <p>You're my biggest cheerleader, and it means everything.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 <p class="mt-12 text-gray-600">Click on the cards to flip them!</p>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section class="py-20 bg-white slide-in-up" style="animation-delay: 0.4s;">
+            <div class="container mx-auto px-4">
+                <h2 class="font-handwriting text-5xl md:text-7xl text-pink-500 text-center mb-12">Our Favorite Moments</h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="grid gap-4">
+                        <div><img class="h-auto max-w-full rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300" src="./img/pic-1.jpeg" alt="Our Memory 1" onerror="this.src='https://placehold.co/400x600/fecdd3/6c2c3b?text=Memory+1'"></div>
+                        <div><img class="h-auto max-w-full rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300" src="./img/pic-2.jpeg" alt="Our Memory 2" onerror="this.src='https://placehold.co/400x400/fecdd3/6c2c3b?text=Memory+2'"></div>
+                    </div>
+                    <div class="grid gap-4">
+                        <div><img class="h-auto max-w-full rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300" src="./img/pic-3.jpeg" alt="Our Memory 3" onerror="this.src='https://placehold.co/400x400/fbcfe8/6c2c3b?text=Memory+3'"></div>
+                        <div><img class="h-auto max-w-full rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300" src="./img/pic-4.jpeg" alt="Our Memory 4" onerror="this.src='https://placehold.co/400x600/fbcfe8/6c2c3b?text=Memory+4'"></div>
+                    </div>
+                    <div class="grid gap-4">
+                        <div><img class="h-auto max-w-full rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300" src="./img/pic-5.jpeg" alt="Our Memory 5" onerror="this.src='https://placehold.co/400x600/f9a8d4/6c2c3b?text=Memory+5'"></div>
+                        <div><img class="h-auto max-w-full rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300" src="./img/pic-6.jpeg" alt="Our Memory 6" onerror="this.src='https://placehold.co/400x400/f9a8d4/6c2c3b?text=Memory+6'"></div>
+                    </div>
+                     <div class="grid gap-4">
+                        <div><img class="h-auto max-w-full rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300" src="./img/pic-7.jpeg" alt="Our Memory 7" onerror="this.src='https://placehold.co/400x400/f472b6/ffffff?text=Memory+7'"></div>
+                        <div><img class="h-auto max-w-full rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300" src="./img/Pic-8.jpeg" alt="Our Memory 8" onerror="this.src='https://placehold.co/400x600/f472b6/ffffff?text=Memory+8'"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Personal Message Section -->
+        <section class="py-20 bg-pink-50 slide-in-up" style="animation-delay: 0.6s;">
+            <div class="container mx-auto text-center max-w-3xl px-4">
+                <h2 class="font-handwriting text-5xl md:text-7xl text-pink-500 mb-8">A Message From My Heart</h2>
+                <div id="personal-message" class="text-lg bg-white p-8 rounded-lg shadow-lg text-left italic">
+                    "My dearest Subhasmita,
+                    <br><br>
+                    Every day with you is a gift. You bring so much joy, laughter, and love into my life. Watching you chase your dreams inspires me, and being by your side is my favorite place to be. I can't wait to see what this next year brings for you. I hope your birthday is as wonderful and amazing as you are.
+                    <br><br>
+                    With all my love,
+                    <br>
+                    Abhijit"
+                </div>
+            </div>
+        </section>
+        
+        <!-- Proposal Section -->
+        <section id="proposal-section" class="py-20 bg-white slide-in-up" style="animation-delay: 0.8s;">
+            <div class="container mx-auto text-center max-w-3xl px-4">
+                <h2 class="font-handwriting text-5xl md:text-7xl text-pink-500 mb-8">Just One More Question...</h2>
+                <button id="love-button" class="bg-pink-500 text-white font-bold py-4 px-8 rounded-full shadow-lg hover:bg-pink-600 transition-transform transform hover:scale-110 duration-300 text-xl md:text-2xl">
+                    Do you love Abhi?
+                </button>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="py-8 bg-pink-200 text-center text-pink-800">
+            <p>Made with ❤️ for the best girlfriend in the world.</p>
+        </footer>
+    </div>
+    
+    <!-- Proposal Modal -->
+    <div id="proposal-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50 hidden">
+        <div id="modal-content" class="bg-white rounded-lg shadow-2xl p-6 md:p-8 text-center max-w-sm mx-auto transform scale-0 transition-transform duration-500">
+            <svg class="w-24 h-24 md:w-32 md:h-32 mx-auto text-pink-400 mb-6" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C9.25 2 7 4.25 7 7C7 8.85 8.1 10.45 9.65 11.2L3.4 17.5C2.63 18.27 2.63 19.53 3.4 20.3C4.17 21.07 5.43 21.07 6.2 20.3L12.45 14.05C13.2 15.6 14.8 16.7 16.65 16.7C17.45 16.7 18.2 16.5 18.85 16.15L17.8 17.2C17.03 17.97 17.03 19.23 17.8 20C18.57 20.77 19.83 20.77 20.6 20L21.65 18.95C22.5 17.5 22.8 15.8 22.4 14.15C21.4 10.4 18.5 7.5 15.15 6.5C13.5 6.1 11.8 6.4 10.35 7.3L11.2 3.65C11.4 2.85 10.8 2 10 2H12M14.5 9C15.88 9 17 10.12 17 11.5C17 12.88 15.88 14 14.5 14C13.12 14 12 12.88 12 11.5C12 10.12 13.12 9 14.5 9Z"/></svg>
+            <h3 class="font-handwriting text-5xl md:text-6xl text-pink-500 mb-4">Marry Me?</h3>
+            <p class="text-gray-700 mb-8 text-base md:text-lg">Let's make forever our next adventure.</p>
+            <button id="yes-button" class="bg-green-500 text-white font-bold py-3 px-10 rounded-full shadow-lg hover:bg-green-600 transition-transform transform hover:scale-110 duration-300 text-xl">
+                YES! ❤️
+            </button>
+        </div>
+    </div>
+    
+    <script>
+        // --- Configuration ---
+        const config = {
+            girlfriendName: "Subhasmita", 
+            birthday: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 1, 0, 0, 0), // Sets countdown to end at midnight
+            personalMessage: `My dearest Subhasmita,<br><br>
+                Every day with you is a gift. You bring so much joy, laughter, and love into my life. Watching you chase your dreams inspires me, and being by your side is my favorite place to be. I can't wait to see what this next year brings for you. I hope your birthday is as wonderful and amazing as you are.
+                <br><br>
+                With all my love,<br>
+                Abhijit`
+        };
+
+        // --- Personalization ---
+        document.getElementById('girlfriend-name').textContent = config.girlfriendName;
+        document.getElementById('personal-message').innerHTML = config.personalMessage;
+
+        // --- Countdown Timer ---
+        const countdownTimer = document.getElementById('countdown-timer');
+        if (config.birthday > new Date()) {
+            const countdownInterval = setInterval(() => {
+                const now = new Date().getTime();
+                const distance = config.birthday - now;
+
+                if (distance < 0) {
+                    clearInterval(countdownInterval);
+                    document.getElementById('countdown-section').innerHTML = `<div class="container mx-auto text-center px-4"><h2 class="font-handwriting text-5xl md:text-7xl text-pink-500">The celebration is here! Happy Birthday!</h2></div>`;
+                    return;
+                }
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                document.getElementById('days').textContent = String(days).padStart(2, '0');
+                document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+                document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+                document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+            }, 1000);
+        } else {
+             document.getElementById('countdown-section').innerHTML = `<div class="container mx-auto text-center px-4"><h2 class="font-handwriting text-5xl md:text-7xl text-pink-500">Happy Birthday! Hope you had a wonderful day!</h2></div>`;
+        }
+        
+        // --- Flipping Cards ---
+        const cards = document.querySelectorAll('.reason-card .card');
+        cards.forEach(card => {
+            card.addEventListener('click', () => {
+                card.classList.toggle('is-flipped');
+            });
+        });
+
+        // --- Floating Hearts Animation ---
+        const heartsContainer = document.getElementById('hearts-container');
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = `${Math.random() * 100}vw`;
+            heart.style.animationDuration = `${Math.random() * 5 + 5}s`;
+            heart.style.fontSize = `${Math.random() * 1.5 + 0.5}rem`;
+            heartsContainer.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 10000);
+        }
+        setInterval(createHeart, 500);
+        
+        // --- Scroll Animations ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.slide-in-up').forEach(el => {
+            observer.observe(el);
+        });
+
+        // --- Proposal Modal Logic ---
+        const loveButton = document.getElementById('love-button');
+        const proposalModal = document.getElementById('proposal-modal');
+        const modalContent = document.getElementById('modal-content');
+        const yesButton = document.getElementById('yes-button');
+        const confettiContainer = document.getElementById('confetti-container');
+
+        loveButton.addEventListener('click', () => {
+            proposalModal.classList.remove('hidden');
+            document.body.classList.add('modal-open');
+            setTimeout(() => {
+                modalContent.classList.add('scale-100');
+            }, 50); // Small delay to allow CSS transition
+        });
+        
+        yesButton.addEventListener('click', () => {
+            modalContent.innerHTML = `<h3 class="font-handwriting text-5xl md:text-6xl text-green-500">She said Yes!</h3><p class="mt-4 mb-8 text-gray-600">Let our forever begin! ❤️</p><a href="https://wa.me/qr/STQM2SIB4CVMM1" target="_blank" class="bg-blue-500 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-blue-600 transition-transform transform hover:scale-110 duration-300 text-lg">Talk to Abhi</a>`;
+            // Trigger confetti
+            for (let i = 0; i < 100; i++) {
+                createConfetti();
+            }
+        });
+
+        function createConfetti() {
+            const confetti = document.createElement('div');
+            confetti.classList.add('confetti');
+            const colors = ['#f9a8d4', '#f472b6', '#ec4899', '#34d399', '#fef08a'];
+            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.left = `${Math.random() * 100}vw`;
+            confetti.style.top = `${-20}px`; // Start above the screen
+            confetti.style.animationDuration = `${Math.random() * 2 + 3}s`; // 3 to 5 seconds
+            confetti.style.animationDelay = `${Math.random() * 2}s`;
+            confettiContainer.appendChild(confetti);
+
+            setTimeout(() => {
+                confetti.remove();
+            }, 5000); // Remove after animation
+        }
+
+    </script>
+</body>
+</html>
+
+
